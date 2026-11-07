@@ -1,5 +1,6 @@
 from helpers import chrono_split, evaluate, load, PRE_DEPARTURE_COLS, LEAKAGE_COLS, SEED
 import argparse
+from sklearn.linear_model import LogisticRegression
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data-dir", default="./")
