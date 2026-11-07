@@ -1,4 +1,4 @@
-from helpers import chrono_split, evaluate, load, SEED, MAX_ITERATIONS
+from helpers import chrono_split, evaluate, load, SEED, MAX_ITERATIONS, CATEGORICAL, NUMERICAL, FEATURES
 import argparse
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
@@ -6,9 +6,6 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-CATEGORICAL = ["OP_UNIQUE_CARRIER", "DEST", "DAY_OF_WEEK", "dep_hour", "ORIGIN"]
-NUMERICAL = ["CRS_DEP_TIME", "CRS_ARR_TIME", "CRS_ELAPSED_TIME", "DISTANCE"]
-FEATURES = CATEGORICAL + NUMERICAL
 def main():#Claude generated some psuedocode for me that I used to implement the pipeline and model training.
     ap = argparse.ArgumentParser()
     ap.add_argument("--data-dir", default="./")

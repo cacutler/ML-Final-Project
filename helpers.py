@@ -11,6 +11,9 @@ PRE_DEPARTURE_COLS = ["DAY_OF_WEEK", "OP_UNIQUE_CARRIER", "DEST", "CRS_DEP_TIME"
 # Known only AFTER departure: use ONLY in the leakage experiment.
 LEAKAGE_COLS = ["DEP_DELAY", "DEP_DEL15", "TAXI_OUT", "WHEELS_OFF"]
 ALL_COLS = REQUIRED_COLS + PRE_DEPARTURE_COLS + LEAKAGE_COLS
+CATEGORICAL = ["OP_UNIQUE_CARRIER", "DEST", "DAY_OF_WEEK", "dep_hour", "ORIGIN"]
+NUMERICAL = ["CRS_DEP_TIME", "CRS_ARR_TIME", "CRS_ELAPSED_TIME", "DISTANCE"]
+FEATURES = CATEGORICAL + NUMERICAL
 SEED = 6470
 MAX_ITERATIONS = 1000
 #Claude generated some helper functions that I can use for all of the models I plan to create and use.

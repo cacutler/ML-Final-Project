@@ -1,4 +1,4 @@
-from helpers import chrono_split, evaluate, load, PRE_DEPARTURE_COLS, LEAKAGE_COLS, SEED, MAX_ITERATIONS
+from helpers import chrono_split, evaluate, load, SEED, MAX_ITERATIONS, CATEGORICAL, NUMERICAL, FEATURES
 import argparse
 from sklearn.ensemble import RandomForestClassifier
 def main():
