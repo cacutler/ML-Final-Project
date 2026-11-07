@@ -2,6 +2,7 @@ import argparse
 import pandas as pd
 from helpers import chrono_split, evaluate, load
 SMOOTHING = 20  # pseudo-count pulling rare groups toward the global rate
+#Claude helped me with getting the specific logic for the baseline model since I didn't know how to do it myself.
 def add_baseline_keys(df):
     df = df.copy()
     df["route"] = df["ORIGIN"] + "-" + df["DEST"]

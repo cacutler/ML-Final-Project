@@ -2,7 +2,7 @@ import glob
 import os
 import numpy as np
 import pandas as pd
-from sklearn.metrics import (average_precision_score, precision_recall_curve, precision_score, recall_score, roc_auc_score)
+from sklearn.metrics import average_precision_score, precision_recall_curve, precision_score, recall_score, roc_auc_score, accuracy_score
 TARGET = "ARR_DEL15"
 # Columns every run needs for filtering, splitting, and the target.
 REQUIRED_COLS = ["FL_DATE", "ORIGIN", "CANCELLED", "DIVERTED", TARGET]
@@ -12,6 +12,8 @@ PRE_DEPARTURE_COLS = ["DAY_OF_WEEK", "OP_UNIQUE_CARRIER", "DEST", "CRS_DEP_TIME"
 LEAKAGE_COLS = ["DEP_DELAY", "DEP_DEL15", "TAXI_OUT", "WHEELS_OFF"]
 ALL_COLS = REQUIRED_COLS + PRE_DEPARTURE_COLS + LEAKAGE_COLS
 SEED = 6470
+MAX_ITERATIONS = 1000
+#Claude generated some helper functions that I can use for all of the models I plan to create and use.
 def load(data_dir, airports, cols=None):
     """Load monthly BTS CSVs, keep chosen origin airports, drop cancelled/diverted/missing target.
     cols: extra columns to read (default: every column used anywhere in the project).
@@ -53,7 +55,7 @@ def evaluate(name, y_val, s_val, y_test, s_test, rows):
     if len(np.unique(s_val)) > 1:
         thr = best_f1_threshold(y_val, s_val)
         pred = (s_test >= thr).astype(int)
-        row.update({"threshold": thr, "precision@thr": precision_score(y_test, pred, zero_division=0), "recall@thr": recall_score(y_test, pred, zero_division=0)})
+        row.update({"accuracy@thr": accuracy_score(y_test, pred), "threshold": thr, "precision@thr": precision_score(y_test, pred, zero_division=0), "recall@thr": recall_score(y_test, pred, zero_division=0)})
     else:  # constant score: no meaningful threshold
-        row.update({"threshold": np.nan, "precision@thr": np.nan, "recall@thr": 0.0})
+        row.update({"accuracy@thr": accuracy_score(y_test, np.zeros(len(y_test))), "threshold": np.nan, "precision@thr": np.nan, "recall@thr": 0.0})
     rows.append(row)

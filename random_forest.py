@@ -1,4 +1,4 @@
-from helpers import chrono_split, evaluate, load, PRE_DEPARTURE_COLS, LEAKAGE_COLS, SEED
+from helpers import chrono_split, evaluate, load, PRE_DEPARTURE_COLS, LEAKAGE_COLS, SEED, MAX_ITERATIONS
 import argparse
 from sklearn.ensemble import RandomForestClassifier
 def main():
@@ -9,7 +9,5 @@ def main():
     args = ap.parse_args()
     df = load(args.data_dir, args.airports)
     train, val, test = chrono_split(df)
-    features = PRE_DEPARTURE_COLS
-    features_leaky = PRE_DEPARTURE_COLS + LEAKAGE_COLS
 if __name__ == "__main__":
     main()
