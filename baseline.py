@@ -16,7 +16,7 @@ def predict_rate(table_prior, df, key):
     return df[key].map(table).fillna(prior).to_numpy()
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data-dir", default="data/raw")
+    ap.add_argument("--data-dir", default="./")
     ap.add_argument("--airports", nargs="+", required=True)
     ap.add_argument("--out", default="baseline_results.csv")
     args = ap.parse_args()
