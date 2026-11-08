@@ -1,7 +1,7 @@
 from helpers import chrono_split, evaluate, load, SEED, CATEGORICAL, NUMERICAL, FEATURES, N_ESTIMATORS, MIN_SAMPLES_LEAF
 import argparse
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import OrdinalEncoder, StandardScaler
+from sklearn.preprocessing import OrdinalEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
@@ -15,7 +15,7 @@ def main():
     args = ap.parse_args()
     df = load(args.data_dir, args.airports)
     train, val, test = chrono_split(df)
-    preprocessor = ColumnTransformer(transformers=[("num", Pipeline([("imputer", SimpleImputer(strategy="median")), ("scaler", StandardScaler())]), NUMERICAL), ("cat", Pipeline([("imputer", SimpleImputer(strategy="most_frequent")), ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))]), CATEGORICAL)])#Claude pointed out that I should use the OrdinalEncoder rather than the OneHotEncoder for the random forest.
+    preprocessor = ColumnTransformer(transformers=[("num", Pipeline([("imputer", SimpleImputer(strategy="median"))]), NUMERICAL), ("cat", Pipeline([("imputer", SimpleImputer(strategy="most_frequent")), ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))]), CATEGORICAL)])#Claude pointed out that I should use the OrdinalEncoder rather than the OneHotEncoder for the random forest.
     model = RandomForestClassifier(class_weight="balanced_subsample" if args.balanced else None, n_jobs=-1, min_samples_leaf=MIN_SAMPLES_LEAF, n_estimators=N_ESTIMATORS, random_state=SEED)#Claude pointed out a few changes to the random forest model such as the min_samples_leaf and the n_jobs parameters.
     pipeline = Pipeline([("prep", preprocessor), ("model", model)])
     pipeline.fit(train[FEATURES], train["y"])
