@@ -26,7 +26,5 @@ def main():#Claude generated some psuedocode for me that I used to implement the
     evaluate(name, val["y"], s_val, test["y"], s_test, rows)
     res = pd.DataFrame(rows).round(4)#Claude helped me write the results to the terminal and to a csv file.
     print(res.to_string(index=False))
-    res.to_csv(args.out, index=False)
-    print(f"Saved {args.out}")
 if __name__ == "__main__":
     main()

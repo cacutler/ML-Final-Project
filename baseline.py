@@ -33,7 +33,5 @@ def main():
         evaluate(name, y_val, predict_rate(tp, val, key), y_test, predict_rate(tp, test, key), rows)
     res = pd.DataFrame(rows).round(4)
     print(res.to_string(index=False))
-    res.to_csv(args.out, index=False)
-    print(f"\nSaved {args.out}")
 if __name__ == "__main__":
     main()

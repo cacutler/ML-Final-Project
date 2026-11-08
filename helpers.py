@@ -16,6 +16,8 @@ NUMERICAL = ["CRS_DEP_TIME", "CRS_ARR_TIME", "CRS_ELAPSED_TIME", "DISTANCE"]
 FEATURES = CATEGORICAL + NUMERICAL
 SEED = 6470
 MAX_ITERATIONS = 1000
+N_ESTIMATORS = 100
+MIN_SAMPLES_LEAF = 50
 #Claude generated some helper functions that I can use for all of the models I plan to create and use.
 def load(data_dir, airports, cols=None):
     """Load monthly BTS CSVs, keep chosen origin airports, drop cancelled/diverted/missing target.
