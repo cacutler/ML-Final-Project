@@ -1,4 +1,4 @@
-from helpers import chrono_split, evaluate, load, SEED, MAX_ITERATIONS, LEAKAGE_CATEGORICAL, LEAKAGE_NUMERICAL, LEAKAGE_FEATURES
+from helpers import chrono_split, evaluate, load, best_f1_threshold, SEED, MAX_ITERATIONS, LEAKAGE_CATEGORICAL, LEAKAGE_NUMERICAL, LEAKAGE_FEATURES
 import argparse
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingClassifier
@@ -55,5 +55,11 @@ def main():
         orig[col] = orig.get(col, 0) + v
     for c, v in sorted(orig.items(), key=lambda x: -x[1])[:10]:
         print(f"{c:<24}{v:.4f}")
+    thr = best_f1_threshold(val["y"], s_val)
+    y_pred = (s_test >= thr).astype(int)
+    disp = ConfusionMatrixDisplay.from_predictions(test["y"], y_pred, display_labels=["On time", "Delayed (15+ min)"], cmap=plt.cm.Blues)
+    disp.ax_.set_title(f"{name} (threshold = {thr:.3f})")
+    plt.show()
+    return
 if __name__ == "__main__":
     main()
