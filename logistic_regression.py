@@ -8,6 +8,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import KFold, cross_val_score, TimeSeriesSplit
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay
 def main():#Claude generated some psuedocode for me that I used to implement the pipeline and model training.
     ap = argparse.ArgumentParser()
     ap.add_argument("--data-dir", default="./")
