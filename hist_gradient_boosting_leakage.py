@@ -46,15 +46,6 @@ def main():
     print(f"std         : {tfold_scores.std():.4f}")
     print(f"lowest      : {tfold_scores.min():.4f}")
     print(f"highest     : {tfold_scores.max():.4f}")
-    names = pipeline.named_steps["prep"].get_feature_names_out()
-    imp = pipeline.named_steps["model"].feature_importances_
-    orig = {}
-    for n, v in zip(names, imp):
-        rest = n.split("__", 1)[1]
-        col = next(c for c in LEAKAGE_FEATURES if rest == c or rest.startswith(c + "_"))
-        orig[col] = orig.get(col, 0) + v
-    for c, v in sorted(orig.items(), key=lambda x: -x[1])[:10]:
-        print(f"{c:<24}{v:.4f}")
     thr = best_f1_threshold(val["y"], s_val)
     y_pred = (s_test >= thr).astype(int)
     disp = ConfusionMatrixDisplay.from_predictions(test["y"], y_pred, display_labels=["On time", "Delayed (15+ min)"], cmap=plt.cm.Blues)
