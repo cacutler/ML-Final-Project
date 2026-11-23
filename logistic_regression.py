@@ -51,7 +51,7 @@ def main():#Claude generated some psuedocode for me that I used to implement the
     top = np.argsort(np.abs(coefs))[::-1][:10]
     for i in top:
         print(f"{names[i]:<35}{coefs[i]:+.4f}")
-    thr = best_f1_threshold(val["y"], s_val)
+    thr = best_f1_threshold(val["y"], s_val)#I had some help from Claude on a good implementation for the confusion matrix.
     y_pred = (s_test >= thr).astype(int)
     disp = ConfusionMatrixDisplay.from_predictions(test["y"], y_pred, display_labels=["On time", "Delayed (15+ min)"], cmap=plt.cm.Blues)
     disp.ax_.set_title(f"{name} (threshold = {thr:.3f})")
