@@ -32,6 +32,7 @@ def main():
                     pipeline = build_pipeline(balanced=args.balanced, learning_rate=learning_rate, max_iterations=max_iterations, max_leaf_nodes=max_leaf_nodes)
                     pipeline.fit(train[FEATURES], train["y"])
                     rows.append({"learning_rate": learning_rate, "max_iterations": max_iterations, "max_leaf_nodes": max_leaf_nodes, "train_pr_auc": average_precision_score(train["y"], pipeline.predict_proba(train[FEATURES])[:, 1]), "val_pr_auc": average_precision_score(val["y"], pipeline.predict_proba(val[FEATURES])[:, 1])})
+                    print(rows[-1])
         log = pd.DataFrame(rows).round(4)
         best = log.iloc[int(log["val_pr_auc"].argmax())]
         log["chosen"] = np.arange(len(log)) == int(log["val_pr_auc"].argmax())
