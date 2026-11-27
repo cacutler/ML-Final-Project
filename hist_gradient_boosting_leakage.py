@@ -1,4 +1,4 @@
-from helpers import chrono_split, evaluate, load, best_f1_threshold, SEED, MAX_ITERATIONS, LEAKAGE_CATEGORICAL, LEAKAGE_NUMERICAL, LEAKAGE_FEATURES
+from helpers import chrono_split, evaluate, load, best_f1_threshold, SEED, MAX_ITERATIONS, LEARNING_RATE, MAX_LEAF_NODES, LEAKAGE_CATEGORICAL, LEAKAGE_NUMERICAL, LEAKAGE_FEATURES
 import argparse
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingClassifier
@@ -20,7 +20,7 @@ def main():
     df = load(args.data_dir, args.airports)
     train, val, test = chrono_split(df)
     preprocessor = ColumnTransformer(transformers=[("cat", Pipeline([("imputer", SimpleImputer(strategy="most_frequent")), ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))]), LEAKAGE_CATEGORICAL), ("num", Pipeline([("imputer", SimpleImputer(strategy="median"))]), LEAKAGE_NUMERICAL)])#Claude helped me rework the preprocessor pipeline for the hist gradient boosting model.
-    model = HistGradientBoostingClassifier(categorical_features=list(range(len(LEAKAGE_CATEGORICAL))), early_stopping=False, max_iter=MAX_ITERATIONS, random_state=SEED)#Claude helped me in pointing out the parameters I should use for the hist gradient boosting classifier.
+    model = HistGradientBoostingClassifier(categorical_features=list(range(len(LEAKAGE_CATEGORICAL))), class_weight="balanced" if args.balanced else None, early_stopping=False, learning_rate=LEARNING_RATE, max_iter=MAX_ITERATIONS, max_leaf_nodes=MAX_LEAF_NODES, random_state=SEED)#Claude helped me in pointing out the parameters I should use for the hist gradient boosting classifier.
     pipeline = Pipeline([("prep", preprocessor), ("model", model)])
     pipeline.fit(train[LEAKAGE_FEATURES], train["y"])
     s_val = pipeline.predict_proba(val[LEAKAGE_FEATURES])[:, 1]

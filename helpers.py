@@ -18,8 +18,10 @@ LEAKAGE_CATEGORICAL = ["DEP_DEL15"]
 LEAKAGE_NUMERICAL = ["DEP_DELAY", "TAXI_OUT", "WHEELS_OFF"]
 LEAKAGE_FEATURES = FEATURES + LEAKAGE_CATEGORICAL + LEAKAGE_NUMERICAL
 SEED = 6470
-MAX_ITERATIONS = 1000
-N_ESTIMATORS = 100
+LEARNING_RATE = 0.05
+MAX_LEAF_NODES = 15
+MAX_ITERATIONS = 100
+N_ESTIMATORS = 300
 MIN_SAMPLES_LEAF = 50
 #Claude generated some helper functions that I can use for all of the models I plan to create and use.
 def load(data_dir, airports, cols=None):
