@@ -32,8 +32,9 @@ def main():#Claude generated some psuedocode for me that I used to implement the
     print(res.to_string(index=False))
     rkf = KFold(n_splits=5, shuffle=True, random_state=SEED)#I got the initial code from the first assignment but I was getting some errors about inconsistent sample numbers, which I had Claude help me debug.  I also decided to do a random cross-validation test and a time-ordered cross-validation test with some help from Claude.
     tkf = TimeSeriesSplit(n_splits=5)
-    rfold_scores = cross_val_score(pipeline, train[LEAKAGE_FEATURES], train.sort_values("date")["y"], cv=rkf, scoring="average_precision")
-    tfold_scores = cross_val_score(pipeline, train[LEAKAGE_FEATURES], train.sort_values("date")["y"], cv=tkf, scoring="average_precision")
+    train_sorted = train.sort_values("date")
+    rfold_scores = cross_val_score(pipeline, train[LEAKAGE_FEATURES], train_sorted["y"], cv=rkf, scoring="average_precision")
+    tfold_scores = cross_val_score(pipeline, train[LEAKAGE_FEATURES], train_sorted["y"], cv=tkf, scoring="average_precision")
     print("Random Cross-Validation:")
     print(f"fold scores : {np.round(rfold_scores, 4).tolist()}")
     print(f"mean        : {rfold_scores.mean():.4f}")
