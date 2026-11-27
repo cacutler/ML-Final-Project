@@ -19,7 +19,7 @@ def main():
     ap.add_argument("--data-dir", default="./")
     ap.add_argument("--airports", nargs="+", required=True)
     ap.add_argument("--balanced", action="store_true", help="use class_weight='balanced' (default: no class weights)")
-    ap.add_argument("--tune", action="store_true", help="run the hyperparameter search on train/validation, then stop")
+    ap.add_argument("--tune", action="store_true", help="run the hyperparameter search on train/validation")
     ap.add_argument("--out", default="random_forest_results.csv")
     args = ap.parse_args()
     df = load(args.data_dir, args.airports)
