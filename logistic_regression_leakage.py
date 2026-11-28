@@ -1,4 +1,4 @@
-from helpers import chrono_split, evaluate, load, best_f1_threshold, SEED, MAX_ITERATIONS, LEAKAGE_CATEGORICAL, LEAKAGE_NUMERICAL, LEAKAGE_FEATURES
+from helpers import chrono_split, evaluate, load, best_f1_threshold, SEED, LR_MAX_ITERATIONS, LEAKAGE_CATEGORICAL, LEAKAGE_NUMERICAL, LEAKAGE_FEATURES
 import argparse
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
@@ -20,7 +20,7 @@ def main():#Claude generated some psuedocode for me that I used to implement the
     df = load(args.data_dir, args.airports)
     train, val, test = chrono_split(df)
     preprocessor = ColumnTransformer(transformers=[("num", Pipeline([("imputer", SimpleImputer(strategy="median")), ("scaler", StandardScaler())]), LEAKAGE_NUMERICAL), ("cat", Pipeline([("imputer", SimpleImputer(strategy="most_frequent")), ("encoder", OneHotEncoder(handle_unknown="ignore"))]), LEAKAGE_CATEGORICAL)])#Claude fixed some errors I had with my preprocessor.
-    model = LogisticRegression(class_weight="balanced" if args.balanced else None, max_iter=MAX_ITERATIONS, random_state=SEED)
+    model = LogisticRegression(class_weight="balanced" if args.balanced else None, max_iter=LR_MAX_ITERATIONS, random_state=SEED)
     pipeline = Pipeline([("prep", preprocessor), ("model", model)])
     pipeline.fit(train[LEAKAGE_FEATURES], train["y"])
     s_val = pipeline.predict_proba(val[LEAKAGE_FEATURES])[:, 1]

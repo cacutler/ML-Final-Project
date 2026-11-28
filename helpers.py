@@ -23,6 +23,7 @@ MAX_LEAF_NODES = 15
 MAX_ITERATIONS = 100
 N_ESTIMATORS = 300
 MIN_SAMPLES_LEAF = 50
+LR_MAX_ITERATIONS = 1000
 #Claude generated some helper functions that I can use for all of the models I plan to create and use.
 def load(data_dir, airports, cols=None):
     """Load monthly BTS CSVs, keep chosen origin airports, drop cancelled/diverted/missing target.
